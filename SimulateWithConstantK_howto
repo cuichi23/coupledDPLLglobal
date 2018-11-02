@@ -1,0 +1,7 @@
+set parameter adiabatic to 0 and control the length of the simulation by TSim with coupling strength given by Kstart
+
+ALSO: set specified_distribution to a value unequal from zero to fix the distribution of intrinsic frequencies for all cases in that run!
+
+modify the initial state according to whether we start at low R, i.e., the incoherent state or large R, i.e., the synced state
+
+--> calculate the global frequency of the synced state using the mean intrinsic frequency and assuming no phase-differences, or relax that state on the first run

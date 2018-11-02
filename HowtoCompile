@@ -1,0 +1,16 @@
+The distutils extension provided with Cython allows you to pass .pyx files directly to the Extension constructor in your setup file.
+
+If you have a single Cython file that you want to turn into a compiled extension, say with filename example.pyx the associated setup.py would be:
+
+from distutils.core import setup
+from Cython.Build import cythonize
+
+setup(
+    ext_modules = cythonize("example.pyx")
+)
+
+To understand the setup.py more fully look at the official distutils documentation. To compile the extension for use in the current directory use:
+
+$ python setup.py build_ext --inplace
+
+
