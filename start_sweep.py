@@ -30,8 +30,6 @@ for n in range(len(fcValues)):
 	for m in range(len(tauValues)):
 		for o in range(len(KstartValues)):
 
-			tau          = tauValues[n];		# transmission delay in seconds        e.g., 3.00, 4.18
-			fc           = fcValues[n];			# cut-off frequency in Hz [fc=1/(2*pi*m)], e.g., m=3->fc=0.05305, m=0.1->fc=1.5915
 			init_phases  = 'iid'				# specifies initial phases of the PLLs [zero, gaussian, iid]
 			init_hist    = 'free'				# specifies initial history for simulation [free, synced, synced_highR]
 			int_frequen  = 'lorentz'			# specifies dist. of intrinsic frequencies [const, gaussian, lorentz]
@@ -47,17 +45,18 @@ for n in range(len(fcValues)):
 			v_int_freqs  = 0.0159;				# variance of gaussian or scale of lorentz distributed int. frequencies
 			sync_freq    = 0.4779;				# initial frequency of the system in case of coupled initial state [Hz]
 			SamplesPerT  = 250;					# samples per period, determines time-step for iteration of Euler-sheme / Runge-Kutta 4th order
-			adiabatic    = 0;					# whether or not adiabatic change of variable
+			adiabatic    = 0;					# whether or not adiabatic change of variable, type 1: contineous and type 2: discrete K+dK steps
 			ad_rate      = 0.0005; 				# change rate Krate = ad_rate / Tsim
 			downscale    = 10;					# divisor of sample rate when plotting and saving data
 			plot_phi_freq= 0;					# whether to plot phases and frequencies
 			plot_out     = 0;					# whether to open plots in matplotlib windows
 			wrap_hist_tau= 1; 					# whether time-series wrapped into vector of length tau --> evolveOrderReduced vs evolveOrder
 			specified_distribution = 1; 		# if this value is non-zero, a specific distribution of intrinsic frequencies is drawn via random seed
+			custom_Kvalues_vector  = 1;			# set to zero for automatic generation of Kvalues vector for the adiabatic == 2 case and to 1, if custom values provided
 
 			simlarge.main(init_phases, init_hist, int_frequen, N, Tsim, Kstart, Kend, fc, tau, downscale, m_init_phase,
 			         var_init_phi, m_int_freqs, v_int_freqs, sync_freq, SamplesPerT, adiabatic, ad_rate, specified_distribution,
-					 plot_phi_freq, wrap_hist_tau, plot_out)
+					 plot_phi_freq, wrap_hist_tau, custom_Kvalues_vector, plot_out)
 
 # init_phases  = 'iid'                   # specifies initial phases of the PLLs [zero, gaussian, iid]
 # init_hist    = 'free'                  # specifies initial history for simulation [free, synced]

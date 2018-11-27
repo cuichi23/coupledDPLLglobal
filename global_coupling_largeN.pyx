@@ -58,7 +58,7 @@ from libc.math cimport round
 @cython.wraparound(False)  # turn off negative index wrapping for entire function
 def main(str init_phases, str init_hist, str int_frequen, int N, double Tsim, double Kstart, double Kend, double fc, double tau, int downscale,
         double m_init_phase, double var_init_phi, double m_int_freqs, double v_int_freqs, double sync_freq, int SamplesPerPeriod, int adiabatic,
-        double ad_rate, int specified_distribution, int plot_phi_freq, int wrap_hist_tau, int plot_out):
+        double ad_rate, int specified_distribution, int plot_phi_freq, int wrap_hist_tau, int custom_Kvalues_vector, Kvalues_vector, int plot_out):
     # for simulations with equal distributions of the intrinsic frequencies choose a value for 'specified_distribution'
     if specified_distribution != 0:
         np.random.seed(specified_distribution);
@@ -69,7 +69,7 @@ def main(str init_phases, str init_hist, str int_frequen, int N, double Tsim, do
 
     #check whether there is a file for saving results of sweeps
     save_file=Path('results/sweep_results.txt')
-    if (adiabatic == 0 and not save_file.is_file()):
+    if (adiabatic == 0 or adiabatic == 2 and not save_file.is_file()):
         print('sweep-results.txt file created and header written.')
         sweep_results=open('results/sweep_results.txt','w+');
         sweep_results.write('Kstart, Fc, tau, lastR, meanR\n');
@@ -119,7 +119,9 @@ def main(str init_phases, str init_hist, str int_frequen, int N, double Tsim, do
     if adiabatic == 1:
         trevsteps = int(round(2.0*Treve/dt));             # time of adiabatic change in steps dt
         extrsteps = int(round(0.5*Tsim/dt));              # time of adiabatic change in steps dt
-    cdef long int itersteps = trelsteps+trevsteps+extrsteps;# total simulation time in dt
+    elif adiabatic == 2:
+        extrsteps = int(round(1.0*Tsim/dt));              # time of adiabatic change in steps dt
+    cdef long int itersteps = trelsteps+trevsteps+extrsteps;  # total simulation time in dt
     cdef np.ndarray[np.float64_t, ndim=2] phases;
     if plot_phi_freq == 1:
         phases = np.zeros([N, tausteps+itersteps], dtype=np.float64);
@@ -135,13 +137,30 @@ def main(str init_phases, str init_hist, str int_frequen, int N, double Tsim, do
     cdef np.ndarray[np.float64_t, ndim=1] K = np.zeros(tausteps+itersteps, dtype=np.float64);
     if adiabatic == 1:
         print('Adiabatic change with Krate =', Krate,'[1/s] for 2xTreve =', 2*Treve,'[s]')
+    elif adiabatic == 2:
+        print('Stepwise change while keeping the state preserved.')
+    else:
+        print('No adiabatic change, sweep mode or constant K case.')
     print('Total simulation time is T =', (tausteps+itersteps)*dt,'[s] with Trelax =', Tsim ,'[s]')
 
     params = {'N': N, 'Kstart': Kstart, 'Kend': Kend, 'tau': tau, 'fc': fc, 'm_int_freqs': m_int_freqs, 'v_int_freqs': v_int_freqs, 'ad_rate': ad_rate,
                 ' m_init_phase':  m_init_phase, 'var_init_phi': var_init_phi, 'SamplesPerPeriod': SamplesPerPeriod, 'down': downscale, 'Tsim': Tsim,}
     np.savez('results/params_Kstart{0}_Fc{1}_tau{2}_{3}_{4}_{5}.pdf'.format(Kstart, fc, tau, now.year, now.month, now.day), params=params);
 
-    # carry out simulation ####################################################################################
+    # carry out simulation #############################################################################################################
+    ####################################################################################################################################
+    cdef double deltaK = 0.025;
+    cdef int numberK = int((Kend-Kstart)/deltaK);
+    cdef np.ndarray[np.float64_t, ndim=1] Kvalues;
+    if ( custom_Kvalues_vector == 0 and adiabatic == 2 ):
+        Kvalues = np.linspace(Kstart,Kend,numberK, dtype=np.float64);
+    elif ( custom_Kvalues_vector == 1 and adiabatic == 2 ):
+        print('NOTE: working with custom values vector for Kvalues! See line 160 in the code.')
+        #Kvalues = np.array([0.08, 0.11, 0.14, 0.15, 0.1525, 0.155, 0.1575, 0.16, 0.165, 0.17, 0.18, 0.2,
+        #                            0.23, 0.26, 0.29, 0.32, 0.35, 0.38, 0.41, 0.44, 0.47, 0.5]);
+        Kvalues = Kvalues_vector;
+    print('Kvalues:', Kvalues);
+    cdef int ii;
     t0 = time.time()
     inidata = init(init_phases, init_hist, tausteps, m_init_phase, var_init_phi, specified_distribution,
                     dt, N, sync_freq, Kend, Kstart, int_freqs, phases, K)
@@ -150,16 +169,48 @@ def main(str init_phases, str init_hist, str int_frequen, int N, double Tsim, do
         print('Called evolvePhases.')
         simdata = evolvePhases(Kstart, Krate, tausteps, extrsteps, trelsteps, trevsteps, adiabatic, down,
                     N, dt, fc, Tsim, itersteps, int_freqs, inidata['phases'], inidata['K'])
-    elif (plot_phi_freq == 0 and wrap_hist_tau == 0):
+    elif (plot_phi_freq == 0 and wrap_hist_tau == 0 and adiabatic != 2):
         print('Called evolveOrder.')
         simdata = evolveOrder(Kstart, Krate, tausteps, extrsteps, trelsteps, trevsteps, adiabatic, down,
                     N, dt, fc, Tsim, itersteps, int_freqs, inidata['phases'], inidata['K'])
-    elif (plot_phi_freq == 0 and wrap_hist_tau == 1):
+    elif (plot_phi_freq == 0 and wrap_hist_tau == 1 and adiabatic != 2):
         print('Called evolveOrderReduced.')
         simdata = evolveOrderReduced(Kstart, Krate, tausteps, extrsteps, trelsteps, trevsteps, adiabatic, down,
                     N, dt, fc, Tsim, itersteps, int_freqs, inidata['phases'], inidata['K'])
+    elif (plot_phi_freq == 0 and wrap_hist_tau == 1 and adiabatic == 2):
+        print('Called evolveOrderReduced_discreteChangeK.')
+        # run initial case which will provide the new phase history for the next step K + deltaK
+        phases = np.array(inidata['phases']);
+        #print('last and first phases (initial): ', phases[0,0], phases[0,tausteps])
+        # run the rest of the cases
+        for ii in xrange(0,len(Kvalues)):
+            simdata = evolveOrderReduced_discreteChangeK(Kvalues[ii], tausteps, extrsteps, trelsteps, trevsteps, adiabatic, down,
+                        N, dt, fc, Tsim, itersteps, int_freqs, phases)
+            Rt     = np.array(simdata['Rt']);
+            phases = np.array(simdata['phases']);
+            #print('last and first phases (in loop',ii,'): ', phases[0,0], phases[0,tausteps])
+            # save result in file
+            sweep_results=open('results/sweep_results.txt','a+');
+            sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+            sweep_results.close();
+        print('Now going backwards and decreasing K.')
+        for ii in xrange(len(Kvalues)-2,-1,-1):
+            simdata = evolveOrderReduced_discreteChangeK(Kvalues[ii], tausteps, extrsteps, trelsteps, trevsteps, adiabatic, down,
+                        N, dt, fc, Tsim, itersteps, int_freqs, phases)
+            Rt     = np.array(simdata['Rt']);
+            phases = np.array(simdata['phases']);
+            #print('last and first phases (in loop',ii,'): ', phases[0,0], phases[0,tausteps])
+            # save result in file
+            sweep_results=open('results/sweep_results.txt','a+');
+            sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+            sweep_results.close();
+        # clean up, quit program
+        print('\nFinished, results saved in sweep_results.txt')
+        exit()
+
     print('time needed for preparation and execution of simulations: ', (time.time()-t0), ' seconds')
-    ###########################################################################################################
+    ####################################################################################################################################
+    ####################################################################################################################################
 
     # delete unnecessary data and cleanup
     del inidata; gc.collect(); print('inidata deleted');
@@ -492,8 +543,10 @@ def evolveOrderReduced(double Kstart, double Krate, int tausteps, int extrsteps,
         for i in xrange(trevsteps):                                             # set the coupling strength for the times of adiabatic change
             K[i+1+tausteps+trelsteps] = K[i+tausteps+trelsteps] + dt * Krate * np.sign( 0.5 * trevsteps - i );
         K[(tausteps+trelsteps+trevsteps):] = Kstart;                            # set the coupling strength constant after adiabatic change
-    else:                                                                       # simulate with constant coupling strength
+    elif adiabatic == 0:                                                        # simulate with constant coupling strength
         K[:] = Kstart;
+    else:
+        print('\nERROR!')
     # plt.figure('K(t)'); plt.clf(); plt.plot(K);
     # plt.ylabel(r'$K(t)$ [radHz]', fontdict = labelfont);
     # plt.xlabel(r'$steps$', fontdict = labelfont);
@@ -548,6 +601,80 @@ def evolveOrderReduced(double Kstart, double Krate, int tausteps, int extrsteps,
     del phases; gc.collect();
 
     return {'Rt': Rt[::down], 'K': K[::down]}
+
+# function that iterates the all-to-all coupled system using the order parameter #################################
+@cython.cdivision(True)    # enables c-division without 1/0 checking
+@cython.boundscheck(False) # turn off bounds-checking for entire function
+@cython.wraparound(False)  # turn off negative index wrapping for entire function
+def evolveOrderReduced_discreteChangeK(double K, int tausteps, int extrsteps, int trelsteps, int trevsteps, int adiabatic,
+                                int down, int N, double dt, double fc, double Tsim, int itersteps, np.ndarray[np.float64_t, ndim=1] int_freqs,
+                                np.ndarray[np.float64_t, ndim=2] phases):
+
+    #print('last and first phases (in function): ', phases[0,0], phases[0,tausteps])
+    cdef long int i;
+    # define temporary variables for control signal, initial frequency and helpers
+    cdef np.ndarray[np.float64_t, ndim=1] Xc = np.zeros(N, dtype=np.float64);
+    #print('TEST0, tausteps:',tausteps,'itersteps:',itersteps)
+    cdef np.ndarray[np.float64_t, ndim=1] Rt = np.zeros((tausteps+itersteps), dtype=np.float64);
+    #print('TEST1')
+    # cdef np.ndarray[np.float64_t, ndim=1] Omeg0 = np.zeros(N, dtype=np.float64);
+    cdef double Rx   = 0;
+    cdef double Ry   = 0;
+    cdef double beta = 2.0*np.pi*fc*dt;   # from numerical integration of the LF dynamics
+    # plt.figure('K(t)'); plt.clf(); plt.plot(K);
+    # plt.ylabel(r'$K(t)$ [radHz]', fontdict = labelfont);
+    # plt.xlabel(r'$steps$', fontdict = labelfont);
+    # plt.savefig('Kt_K{0}_Fc{1}.png'.format(K, fc), dpi=300)
+    # plt.draw();
+    # plt.show();
+    # set initial state of the loop-filter
+    if tausteps > 0:
+        for i in xrange(N):
+            # Omeg0[i] = ( phases[i,tausteps-1] - phases[i,tausteps-2] ) / dt;    # calculate initial frequencies
+            # Xc[i]    = ( Omeg0[i]/(2.0*np.pi) - int_freqs[i] ) / K;             # calculate initial control signal
+            Xc[i]    = ( (phases[i,tausteps-1] - phases[i,tausteps-2]) / (dt*2.0*np.pi) - int_freqs[i] ) / K;
+            # print('initial control signal', ( (phases[i,tausteps-1] - phases[i,tausteps-2]) / (dt*2.0*np.pi) - int_freqs[i] ) / K)
+    else:
+        Xc[:] = 0;
+    # print('len(phases[0,:]):', len(phases[0,:]),' for tausteps:', tausteps)
+    #print('IN evolveOrderReduced: phases[0,tausteps-1]:', phases[0,tausteps-1],' phases[0,tausteps]:', phases[0,tausteps],
+    #        ' phases[0,tausteps+1]:', phases[0,tausteps+1],'phases[0,tausteps-2]:', phases[0,tausteps-2],
+    #        'phases[0,len(phases[0,:])-1]',phases[0,len(phases[0,:])-1],'phases[0,len(phases[0,:])]',phases[0,len(phases[0,:])])
+    # evolve the system
+    cdef double OneOverN = (1.0/N);
+    for i in xrange(tausteps-1,(tausteps+itersteps-1)):
+        # print('i%tausteps=',i%tausteps,'(i+1)%tausteps',(i+1)%tausteps)
+        # print('phases[0,i%tausteps=',i%tausteps,']:', phases[0,i%tausteps]);#,'phases[0,i+1]:', phases[0,i+1],'phases[0,i-1]:', phases[0,i-1])
+        # print('phases[0,(i+1)%tausteps=',(i+1)%tausteps,']:', phases[0,(i+1)%tausteps]);
+        # print('i:',i,' (i+1-tausteps)%tausteps:',(i+1-tausteps)%tausteps,' (i+1)%tausteps:',(i+1)%tausteps,' i%tausteps:',i%tausteps)
+        # time.sleep(1)
+        # calculate Rx and Ry
+        Rx = OneOverN * np.sum( np.cos(phases[:,(i+1-tausteps)%tausteps]) );    # (i+1-tausteps)%tausteps: "-tausteps" may no be necessary
+        Ry = OneOverN * np.sum( np.sin(phases[:,(i+1-tausteps)%tausteps]) );
+        # save order parameter (magnitude)
+        Rt[i+1-tausteps] = np.sqrt( Rx**2.0 + Ry**2.0 );
+        # calculate control signal
+        Xc[:] = (1.0 - beta) * Xc[:] + beta * ( Ry * np.cos(phases[:,i%tausteps]) - Rx * np.sin(phases[:,i%tausteps]) );
+        # iterate phases
+        #print('phases[0,',(i)%tausteps,']',phases[0,(i)%tausteps],'before update phases[0,',(i+1)%tausteps,']',phases[0,(i+1)%tausteps])
+        phases[:,(i+1)%tausteps] = phases[:,i%tausteps] + 2.0*np.pi*dt* ( int_freqs[:] + K * Xc[:] );
+        #print('phases[0,',(i)%tausteps,']',phases[0,(i)%tausteps],'after update phases[0,',(i+1)%tausteps,']',phases[0,(i+1)%tausteps])
+        # print('\nRx: ', Rx, '  Ry: ', Ry, 'Xc[0]: ', Xc[0], ' 2.0*np.pi*dt* ( int_freqs[:] + K[i] * Xc[:]:', 2.0*np.pi*dt* ( int_freqs[:] + K[i] * Xc[:] ) )
+        #time.sleep(1)
+        # print('K[',i,']', K[i])
+        # print('mean (over PLLs) instantaneous frequency: ', np.mean(phases[:,(i+1)%tausteps] - phases[:,i%tausteps])/dt)
+
+    # calculate last i of above loop, necessary to know where to start below when calculating the remaining order parameter
+    cdef int last_i = (tausteps+itersteps-1)%tausteps;
+    #print('last i-value:', last_i)
+    # print final mean frequency of PLL system
+    print('\nFor K =', K, ' radHz final mean (over PLLs) frequency: ', np.mean(phases[:,last_i] - phases[:,(last_i-1)])/dt )
+    # calculate Rt for the missing time tau at the end; in the loop Rt has been filled up to index itersteps
+    for i in xrange(itersteps,itersteps+tausteps):
+        Rt[i] = np.abs(np.mean(np.exp(1j * phases[:,(i+last_i)%tausteps]), axis=0));
+
+    # rearrange phases such that last calculated values are first vector entries via numpy.roll()
+    return {'Rt': Rt[::down], 'K': K, 'phases': np.roll(phases, -last_i, axis=1)}
 
 #function to calculate the Kuramoto order parameter #############################################################
 def calcKuramotoOrderParameter(np.ndarray[np.float64_t, ndim=2] phi):
