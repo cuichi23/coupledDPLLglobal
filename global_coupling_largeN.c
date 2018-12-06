@@ -2373,7 +2373,7 @@ static PyObject *__pyx_int_51;
 static PyObject *__pyx_int_300;
 static PyObject *__pyx_int_10000;
 static PyObject *__pyx_int_neg_1;
-static PyObject *__pyx_int_neg_10;
+static PyObject *__pyx_int_neg_50;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_slice__4;
 static PyObject *__pyx_slice__5;
@@ -6385,7 +6385,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
  *             #print('last and first phases (in loop',ii,'): ', phases[0,0], phases[0,tausteps])
  *             # save result in file
  *             sweep_results=open('results/sweep_results.txt','a+');             # <<<<<<<<<<<<<<
- *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *             sweep_results.close();
  */
       __pyx_t_14 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_tuple__13, NULL); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 193, __pyx_L1_error)
@@ -6396,7 +6396,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
       /* "global_coupling_largeN.pyx":194
  *             # save result in file
  *             sweep_results=open('results/sweep_results.txt','a+');
- *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));             # <<<<<<<<<<<<<<
+ *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));             # <<<<<<<<<<<<<<
  *             sweep_results.close();
  *         print('Now going backwards and decreasing K.')
  */
@@ -6422,7 +6422,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
       __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
       __pyx_t_24 = __Pyx_PyInt_FromDouble((1.0 / (__pyx_v_m_int_freqs * __pyx_v_dt))); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_24);
-      __pyx_t_27 = PyNumber_Multiply(__pyx_int_neg_10, __pyx_t_24); if (unlikely(!__pyx_t_27)) __PYX_ERR(0, 194, __pyx_L1_error)
+      __pyx_t_27 = PyNumber_Multiply(__pyx_int_neg_50, __pyx_t_24); if (unlikely(!__pyx_t_27)) __PYX_ERR(0, 194, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_27);
       __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
       __pyx_t_24 = __Pyx_PyObject_GetSlice(__pyx_v_Rt, 0, 0, &__pyx_t_27, NULL, NULL, 0, 0, 0); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 194, __pyx_L1_error)
@@ -6588,7 +6588,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
 
       /* "global_coupling_largeN.pyx":195
  *             sweep_results=open('results/sweep_results.txt','a+');
- *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *             sweep_results.close();             # <<<<<<<<<<<<<<
  *         print('Now going backwards and decreasing K.')
  *         for ii in xrange(len(Kvalues)-2,-1,-1):
@@ -6617,7 +6617,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
     }
 
     /* "global_coupling_largeN.pyx":196
- *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *             sweep_results.close();
  *         print('Now going backwards and decreasing K.')             # <<<<<<<<<<<<<<
  *         for ii in xrange(len(Kvalues)-2,-1,-1):
@@ -6936,7 +6936,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
  *             #print('last and first phases (in loop',ii,'): ', phases[0,0], phases[0,tausteps])
  *             # save result in file
  *             sweep_results=open('results/sweep_results.txt','a+');             # <<<<<<<<<<<<<<
- *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *             sweep_results.close();
  */
       __pyx_t_14 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_tuple__14, NULL); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 204, __pyx_L1_error)
@@ -6947,7 +6947,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
       /* "global_coupling_largeN.pyx":205
  *             # save result in file
  *             sweep_results=open('results/sweep_results.txt','a+');
- *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));             # <<<<<<<<<<<<<<
+ *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));             # <<<<<<<<<<<<<<
  *             sweep_results.close();
  *         # clean up, quit program
  */
@@ -6973,7 +6973,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_10 = __Pyx_PyInt_FromDouble((1.0 / (__pyx_v_m_int_freqs * __pyx_v_dt))); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 205, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_10);
-      __pyx_t_13 = PyNumber_Multiply(__pyx_int_neg_10, __pyx_t_10); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 205, __pyx_L1_error)
+      __pyx_t_13 = PyNumber_Multiply(__pyx_int_neg_50, __pyx_t_10); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 205, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_13);
       __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
       __pyx_t_10 = __Pyx_PyObject_GetSlice(__pyx_v_Rt, 0, 0, &__pyx_t_13, NULL, NULL, 0, 0, 0); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 205, __pyx_L1_error)
@@ -7139,7 +7139,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
 
       /* "global_coupling_largeN.pyx":206
  *             sweep_results=open('results/sweep_results.txt','a+');
- *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *             sweep_results.close();             # <<<<<<<<<<<<<<
  *         # clean up, quit program
  *         print('\nFinished, results saved in sweep_results.txt')
@@ -9918,7 +9918,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
  *     if adiabatic == 1:
  *         ax1.plot(t[int((tausteps+trelsteps)/down)]*dt, 0.05, 'yo', ms=2)             # <<<<<<<<<<<<<<
  *     else:
- *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-10*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
+ *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-50*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
  */
     __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_v_ax1, __pyx_n_s_plot); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 299, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
@@ -9975,9 +9975,9 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
   /* "global_coupling_largeN.pyx":301
  *         ax1.plot(t[int((tausteps+trelsteps)/down)]*dt, 0.05, 'yo', ms=2)
  *     else:
- *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-10*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);             # <<<<<<<<<<<<<<
+ *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-50*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);             # <<<<<<<<<<<<<<
  *         sweep_results=open('results/sweep_results.txt','a+');
- *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  */
   /*else*/ {
     __pyx_t_26 = __Pyx_PyObject_GetAttrStr(__pyx_v_ax1, __pyx_n_s_set_title); if (unlikely(!__pyx_t_26)) __PYX_ERR(0, 301, __pyx_L1_error)
@@ -9990,7 +9990,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
     if (unlikely(!__pyx_v_Rt)) { __Pyx_RaiseUnboundLocalError("Rt"); __PYX_ERR(0, 301, __pyx_L1_error) }
     __pyx_t_24 = __Pyx_PyInt_FromDouble((1.0 / (__pyx_v_m_int_freqs * __pyx_v_dt))); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 301, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_24);
-    __pyx_t_25 = PyNumber_Multiply(__pyx_int_neg_10, __pyx_t_24); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 301, __pyx_L1_error)
+    __pyx_t_25 = PyNumber_Multiply(__pyx_int_neg_50, __pyx_t_24); if (unlikely(!__pyx_t_25)) __PYX_ERR(0, 301, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_25);
     __Pyx_DECREF(__pyx_t_24); __pyx_t_24 = 0;
     __pyx_t_24 = __Pyx_PyObject_GetSlice(__pyx_v_Rt, 0, 0, &__pyx_t_25, NULL, NULL, 0, 0, 0); if (unlikely(!__pyx_t_24)) __PYX_ERR(0, 301, __pyx_L1_error)
@@ -10065,9 +10065,9 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
 
     /* "global_coupling_largeN.pyx":302
  *     else:
- *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-10*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
+ *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-50*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
  *         sweep_results=open('results/sweep_results.txt','a+');             # <<<<<<<<<<<<<<
- *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *         sweep_results.close();
  */
     __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_open, __pyx_tuple__26, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 302, __pyx_L1_error)
@@ -10076,9 +10076,9 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
     __pyx_t_5 = 0;
 
     /* "global_coupling_largeN.pyx":303
- *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-10*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
+ *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-50*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
  *         sweep_results=open('results/sweep_results.txt','a+');
- *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));             # <<<<<<<<<<<<<<
+ *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));             # <<<<<<<<<<<<<<
  *         sweep_results.close();
  *     ax1.plot(t*dt,Rt,'b-');
  */
@@ -10106,7 +10106,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
     if (unlikely(!__pyx_v_Rt)) { __Pyx_RaiseUnboundLocalError("Rt"); __PYX_ERR(0, 303, __pyx_L1_error) }
     __pyx_t_6 = __Pyx_PyInt_FromDouble((1.0 / (__pyx_v_m_int_freqs * __pyx_v_dt))); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 303, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_14 = PyNumber_Multiply(__pyx_int_neg_10, __pyx_t_6); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 303, __pyx_L1_error)
+    __pyx_t_14 = PyNumber_Multiply(__pyx_int_neg_50, __pyx_t_6); if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 303, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = __Pyx_PyObject_GetSlice(__pyx_v_Rt, 0, 0, &__pyx_t_14, NULL, NULL, 0, 0, 0); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 303, __pyx_L1_error)
@@ -10272,7 +10272,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
 
     /* "global_coupling_largeN.pyx":304
  *         sweep_results=open('results/sweep_results.txt','a+');
- *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *         sweep_results.close();             # <<<<<<<<<<<<<<
  *     ax1.plot(t*dt,Rt,'b-');
  *     ax1.plot(np.array(treshold_times)*dt,np.zeros(len(treshold_times))+( 0.1/np.sqrt(float(N)) ),'ko', ms=2)
@@ -10302,7 +10302,7 @@ static PyObject *__pyx_pf_22global_coupling_largeN_main(CYTHON_UNUSED PyObject *
   __pyx_L59:;
 
   /* "global_coupling_largeN.pyx":305
- *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *         sweep_results.close();
  *     ax1.plot(t*dt,Rt,'b-');             # <<<<<<<<<<<<<<
  *     ax1.plot(np.array(treshold_times)*dt,np.zeros(len(treshold_times))+( 0.1/np.sqrt(float(N)) ),'ko', ms=2)
@@ -23625,7 +23625,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             #print('last and first phases (in loop',ii,'): ', phases[0,0], phases[0,tausteps])
  *             # save result in file
  *             sweep_results=open('results/sweep_results.txt','a+');             # <<<<<<<<<<<<<<
- *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *             sweep_results.close();
  */
   __pyx_tuple__13 = PyTuple_Pack(2, __pyx_kp_s_results_sweep_results_txt, __pyx_kp_s_a_2); if (unlikely(!__pyx_tuple__13)) __PYX_ERR(0, 193, __pyx_L1_error)
@@ -23636,7 +23636,7 @@ static int __Pyx_InitCachedConstants(void) {
  *             #print('last and first phases (in loop',ii,'): ', phases[0,0], phases[0,tausteps])
  *             # save result in file
  *             sweep_results=open('results/sweep_results.txt','a+');             # <<<<<<<<<<<<<<
- *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *             sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *             sweep_results.close();
  */
   __pyx_tuple__14 = PyTuple_Pack(2, __pyx_kp_s_results_sweep_results_txt, __pyx_kp_s_a_2); if (unlikely(!__pyx_tuple__14)) __PYX_ERR(0, 204, __pyx_L1_error)
@@ -23747,9 +23747,9 @@ static int __Pyx_InitCachedConstants(void) {
 
   /* "global_coupling_largeN.pyx":302
  *     else:
- *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-10*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
+ *         ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-50*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
  *         sweep_results=open('results/sweep_results.txt','a+');             # <<<<<<<<<<<<<<
- *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+ *         sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
  *         sweep_results.close();
  */
   __pyx_tuple__26 = PyTuple_Pack(2, __pyx_kp_s_results_sweep_results_txt, __pyx_kp_s_a_2); if (unlikely(!__pyx_tuple__26)) __PYX_ERR(0, 302, __pyx_L1_error)
@@ -24659,7 +24659,7 @@ static int __Pyx_InitGlobals(void) {
   __pyx_int_300 = PyInt_FromLong(300); if (unlikely(!__pyx_int_300)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_10000 = PyInt_FromLong(10000L); if (unlikely(!__pyx_int_10000)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
-  __pyx_int_neg_10 = PyInt_FromLong(-10); if (unlikely(!__pyx_int_neg_10)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_neg_50 = PyInt_FromLong(-50); if (unlikely(!__pyx_int_neg_50)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
   return -1;

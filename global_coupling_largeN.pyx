@@ -191,7 +191,7 @@ def main(str init_phases, str init_hist, str int_frequen, int N, double Tsim, do
             #print('last and first phases (in loop',ii,'): ', phases[0,0], phases[0,tausteps])
             # save result in file
             sweep_results=open('results/sweep_results.txt','a+');
-            sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+            sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
             sweep_results.close();
         print('Now going backwards and decreasing K.')
         for ii in xrange(len(Kvalues)-2,-1,-1):
@@ -202,7 +202,7 @@ def main(str init_phases, str init_hist, str int_frequen, int N, double Tsim, do
             #print('last and first phases (in loop',ii,'): ', phases[0,0], phases[0,tausteps])
             # save result in file
             sweep_results=open('results/sweep_results.txt','a+');
-            sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+            sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kvalues[ii], fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
             sweep_results.close();
         # clean up, quit program
         print('\nFinished, results saved in sweep_results.txt')
@@ -298,9 +298,9 @@ def main(str init_phases, str init_hist, str int_frequen, int N, double Tsim, do
     if adiabatic == 1:
         ax1.plot(t[int((tausteps+trelsteps)/down)]*dt, 0.05, 'yo', ms=2)
     else:
-        ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-10*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
+        ax1.set_title(r'average order parameter over last 3periods $\bar{R}(-3T_{\omega})=$%.5f' %np.mean(Rt[-50*int(1/(m_int_freqs*dt)):]), fontdict = titlefont);
         sweep_results=open('results/sweep_results.txt','a+');
-        sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-10*int(1/(m_int_freqs*dt)):])));
+        sweep_results.write('{0}, {1}, {2}, {3}, {4}\n'.format(Kstart, fc, tau, Rt[len(Rt)-1], np.mean(Rt[-50*int(1/(m_int_freqs*dt)):])));
         sweep_results.close();
     ax1.plot(t*dt,Rt,'b-');
     ax1.plot(np.array(treshold_times)*dt,np.zeros(len(treshold_times))+( 0.1/np.sqrt(float(N)) ),'ko', ms=2)
